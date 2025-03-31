@@ -1,0 +1,55 @@
+services:
+  dns1:
+    container_name: dns1
+    build: .
+    restart: always
+    ports:
+      # HOST:CONTAINER
+      - "30053:53"
+      - "30053:53/udp"
+    volumes:
+      - dns_data_1:/usr/data/dns_data_1
+      - ./named/named.conf:/etc/named.conf
+    networks:
+      dns:
+        ipv4_address: 10.10.0.11
+    
+  dns2:
+    container_name: dns2
+    build: .
+    restart: always
+    ports:
+      # HOST:CONTAINER
+      - "30054:53"
+      - "30054:53/udp"
+    volumes:
+      - dns_data_2:/usr/data/dns_data_2
+      - ./named/named.conf:/etc/named.conf
+    networks:
+      dns:
+        ipv4_address: 10.10.0.12
+
+  shell:
+    container_name: shell
+    build:
+      dockerfile: debian.Dockerfile
+      context: .
+    restart: always
+    networks:
+      - dns
+
+networks:
+  dns:
+    name: dns
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.10.0.0/16
+          ip_range: 10.10.0.0/24
+
+
+volumes:
+  dns_data_1:
+    name: dns_data_1
+  dns_data_2:
+    name: dns_data_2
