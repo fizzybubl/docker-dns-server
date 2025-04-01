@@ -9,7 +9,9 @@ services:
       - "30053:53/udp"
     volumes:
       - dns_data_1:/usr/data/dns_data_1
-      - ./named/named.conf:/etc/named.conf
+      - ./named/named.conf.auth:/etc/named.conf
+      - ./named/0.10.10.zone:/var/named/zones/0.10.10.zone
+      - ./named/privatezone.org.zone:/var/named/zones/privatezone.org.zone
     networks:
       dns:
         ipv4_address: 10.10.0.11
@@ -24,7 +26,9 @@ services:
       - "30054:53/udp"
     volumes:
       - dns_data_2:/usr/data/dns_data_2
-      - ./named/named.conf:/etc/named.conf
+      - ./named/named.conf.auth:/etc/named.conf
+      - ./named/0.10.10.zone:/var/named/zones/0.10.10.zone
+      - ./named/privatezone.org.zone:/var/named/zones/privatezone.org.zone
     networks:
       dns:
         ipv4_address: 10.10.0.12
@@ -37,6 +41,17 @@ services:
     restart: always
     networks:
       - dns
+
+  nginx:
+    container_name: nginx
+    image: nginx
+    restart: always
+    ports:
+      - "8080:80"
+      - "8443:443"
+    networks:
+      dns:
+        ipv4_address: 10.10.0.100
 
 networks:
   dns:
