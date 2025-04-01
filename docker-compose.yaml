@@ -38,6 +38,17 @@ services:
     networks:
       - dns
 
+  nginx:
+    container_name: nginx
+    image: nginx
+    restart: always
+    ports:
+      - "8080:80"
+      - "8443:443"
+    networks:
+      dns:
+        ipv4_address: 10.10.0.100
+
 networks:
   dns:
     name: dns
