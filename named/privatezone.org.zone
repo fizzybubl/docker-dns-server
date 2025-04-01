@@ -1,0 +1,21 @@
+$TTL    604800
+@       IN      SOA     dns1.privatezone.org. admin.privatezone.org. (
+                              3         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+
+; Name servers
+privatezone.org.    IN      NS      dns1.privatezone.org.
+privatezone.org.    IN      NS      dns2.privatezone.org.
+
+; A records for name servers
+dns1             IN      A       10.10.0.11
+dns2             IN      A       10.10.0.12
+
+
+; Other A records
+@               IN      A       10.10.0.100
+onprem             IN      A       10.10.0.100

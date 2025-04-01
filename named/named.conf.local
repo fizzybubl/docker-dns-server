@@ -1,0 +1,11 @@
+zone "privatezone.org" {
+    type master;
+    file "/etc/zones/db.privatezone.org";
+    allow-transfer { 10.10.0.12; };
+};
+
+
+zone "0.10.10.in-addr.arpa" {
+    type master;
+    file "/etc/zones/db.10.10.0";
+};
